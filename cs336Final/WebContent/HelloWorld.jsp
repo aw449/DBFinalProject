@@ -27,6 +27,7 @@ Hello World1 <!-- the usual HTML way -->
     <!-- when the radio for bars is chosen, then 'command' will have value 
      | 'bars', in the show.jsp file, when you access request.parameters -->
   <br>
+	<jsp:include page="majordropdown.jsp"/>
   <input type="submit" value="submit" />
 </form>
 <br>
