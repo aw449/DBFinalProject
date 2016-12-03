@@ -7,6 +7,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#advanced_options_button').click(function(){
+			$('#advanced_options').toggle();
+		});
+	});
+</script>
 <title>Masters or Job?</title>
 </head>
 <body>
@@ -17,6 +25,11 @@
 I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
 <input type="submit" value="submit"/>
 </p>
+<button type="button" id="advanced_options_button">Advanced Options</button>
+<div style="display:none" id ="advanced_options">
+	<p>LOOK AT ME I'M MR MEESEEKS</p>
+	<jsp:include page="advancedoptions.jsp"></jsp:include>
+</div>
 </form>
 </body>
 </html>
