@@ -20,7 +20,7 @@
 <body>
 <h1>Masters or Job</h1>
 <h3>Should I get a masters degree or go straight into industry?</h3>
-<form method="get" action="test.jsp" enctype=text/plain>
+<form method="get" action="test2.jsp" enctype=text/plain>
 <p>
 I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
 <input type="submit" value="submit"/>
