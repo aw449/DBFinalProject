@@ -1,4 +1,4 @@
- <input list="Majors">
+ <input list="Majors" name="Majors">
 	<datalist id="Majors">
  	 	<option value="Agricultural economics">
 		<option value="Animal sciences">
