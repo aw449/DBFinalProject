@@ -27,11 +27,46 @@ String state = request.getParameter("States");
 //Use session to pass parameters between jsp pages
 session.setAttribute("Major", major);
 session.setAttribute("State", state);
+//session.setAttribute("Connection", con);
 
 %>
 
 <!-- Start adding charts here -->
+<div id="chart2"></div>
+<%
+String str = "SELECT maj.Major_Group, avg(maj.Median_Annual_Wages) as Wages FROM Major maj GROUP BY maj.Major_Group ORDER BY avg(maj.Median_Annual_Wages) DESC";
+Map<String, String> dataMap = getDataMap(con,str,"Major_Group","Wages");
+Gson gson = new Gson();
 
+FusionCharts lineChart = new FusionCharts(
+        "column2d",// chartType
+        "ex1",// chartId
+        "600","400",// chartWidth, chartHeight
+        "chart2",// chartContainer
+        "json",// dataFormat
+        // dataSource
+		gson.toJson(dataMap)
+		);
+
+%>
+<%= lineChart.render()%>
+<div id="chart3"></div>
+<% 
+	String q = "SELECT DISTINCT maj.Major_Subgroup, maj.Median_Annual_Wages FROM Major maj WHERE maj.Major_Group in (SELECT m.Major_Group FROM Major m WHERE m.Major_Subgroup = \"" + major + "\")";
+	
+	Map<String, String> dataMap1 = getDataMap(con,q,"Major_Subgroup","Median_Annual_Wages");
+	FusionCharts nextChart = new FusionCharts(
+	        "column2d",// chartType
+	        "ex3",// chartId
+	        "600","400",// chartWidth, chartHeight
+	        "chart3",// chartContainer
+	        "json",// dataFormat
+	        // dataSource
+			gson.toJson(dataMap1)
+			);
+	out.print(gson.toJson(dataMap1).toString());
+%>
+<%= nextChart.render()%>
 <%
 con.close();
 %>
