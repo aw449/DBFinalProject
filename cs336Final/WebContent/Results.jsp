@@ -5,6 +5,7 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="fusioncharts.FusionCharts" %>
 <%@ page import="com.google.gson.*" %>
+<%@ include file="dataMapFunction.jsp"%>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,7 +21,6 @@
 String url = "jdbc:mysql://masters.cqxrbwnqjcdx.us-east-1.rds.amazonaws.com:3306/innodb";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con = DriverManager.getConnection(url, "woleng", "analmaDB");
-Statement stmt = con.createStatement();
 
 String major = request.getParameter("Majors");
 String state = request.getParameter("States");
