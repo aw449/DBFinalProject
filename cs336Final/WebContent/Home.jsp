@@ -7,6 +7,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -18,6 +24,7 @@
 <title>Masters or Job?</title>
 </head>
 <body>
+<div class="jumbotron">
 <h1>Masters or Job</h1>
 <h3>Should I get a masters degree or go straight into industry?</h3>
 <form method="get" action="Results.jsp" enctype=text/plain>
@@ -31,5 +38,6 @@ I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to
 	<jsp:include page="advancedoptions.jsp"></jsp:include>
 </div>
 </form>
+</div>
 </body>
 </html>

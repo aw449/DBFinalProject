@@ -14,9 +14,16 @@
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.charts.js"></script>
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.ocean.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <title>Query Results</title>
 </head>
 <body>
+<h1>Results</h1>
 <%
 String url = "jdbc:mysql://masters.cqxrbwnqjcdx.us-east-1.rds.amazonaws.com:3306/innodb";
 Class.forName("com.mysql.jdbc.Driver");
@@ -32,7 +39,6 @@ session.setAttribute("State", state);
 %>
 
 <!-- Start adding charts here -->
-<div id="chart2"></div>
 <%
 String str = "SELECT maj.Major_Group, avg(maj.Median_Annual_Wages) as Wages FROM Major maj GROUP BY maj.Major_Group ORDER BY avg(maj.Median_Annual_Wages) DESC";
 Map<String, String> dataMap = getDataMap(con,str,"Major_Group","Wages");
@@ -50,7 +56,6 @@ FusionCharts lineChart = new FusionCharts(
 
 %>
 <%= lineChart.render()%>
-<div id="chart3"></div>
 <% 
 	String q = "SELECT DISTINCT maj.Major_Subgroup, maj.Median_Annual_Wages FROM Major maj WHERE maj.Major_Group in (SELECT m.Major_Group FROM Major m WHERE m.Major_Subgroup = \"" + major + "\")";
 	
@@ -64,11 +69,28 @@ FusionCharts lineChart = new FusionCharts(
 	        // dataSource
 			gson.toJson(dataMap1)
 			);
-	out.print(gson.toJson(dataMap1).toString());
 %>
 <%= nextChart.render()%>
+<!-- Start table formatting -->
+<div class="panel panel-default">
+
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6">
+			<h4>Median Annual Wages for Similar Majors</h4>
+			<div id="chart3"></div>
+		</div>
+		<div class="col-md-6">
+			<h4>Median Annual Wages for Major Groups</h4>
+			<div id="chart2"></div>	
+		</div>
+</div>
+</div>
+
 <%
 con.close();
 %>
+</div>
 </body>
 </html>
