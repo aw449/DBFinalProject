@@ -90,10 +90,38 @@ FusionCharts lineChart2 = new FusionCharts(
 
 %>
 <%= lineChart2.render()%>
+<% 
+String q4 = "SELECT maj.Graduate_Degree_Attainment, maj.Median_Annual_Wages, maj.Graduate_Degree_Wage_Premium FROM Major maj where Major_Subgroup = \"" + major + "\"";
+Statement stmt = con.createStatement();
+PreparedStatement the_statement = con.prepareStatement(q4);
+ResultSet rs = the_statement.executeQuery();
+rs.next();
+%>
+<!-- Start text formatting -->
+
+<div class="panel panel-default">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-mid-12">
+			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>Percentage of People with Graduate Degrees: <%=rs.getString("Graduate_Degree_Attainment") %>%</h2>
+		</div>
+		<div class="col-md-4">
+			<h4>Median Annual Wages: $<%=rs.getString("Median_Annual_Wages") %></h2>
+		</div>
+		<div class="col-md-4">
+			<h4>Graduate Wage Premium: <%=rs.getString("Graduate_Degree_Wage_Premium") %>%</h2>
+		</div>
+	</div>
+</div>
+</div>
+	
 <!-- Start table formatting -->
 <div class="panel panel-default">
-
-</div>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-6">
@@ -112,10 +140,10 @@ FusionCharts lineChart2 = new FusionCharts(
 	</div>
 </div>
 </div>
+</div>
 
 <%
 con.close();
 %>
-</div>
 </body>
 </html>
