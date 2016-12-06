@@ -1,6 +1,6 @@
-<h2> College Details </h2>
+<h4> College Details </h4>
 I Plan on Attending 
-<input list="Colleges" name="Colleges" value ="">
+<input list="Colleges" name="Colleges" value ="" style="width:300px">
 <datalist id="Colleges">
 	<option value="Alabama A & M University">
 	<option value="University of Alabama at Birmingham">
@@ -4613,9 +4613,9 @@ I Plan on Attending
 	</datalist>
 's Graduate School
 </br>
-<h3> OR </h3>
+<h4> OR </h4>
 
-I Plan on Studying in 
+I Plan on Studying in the state
 <input list="CollegeStates" name ="CollegeStates" value = "">
 	<datalist id="CollegeStates">
 		<option value="AL">
@@ -4670,9 +4670,9 @@ I Plan on Studying in
 	</datalist>
 
 
-<h2> Job Details </h2>
-I Plan on Working Here 
-<input list="Occupations" name="Occupations" value ="">
+<h4> Job Details </h4>
+My desired Occupation is  
+<input list="Occupations" name="Occupations" value ="" style="width:300px">
 <datalist id="Occupations">
 <option value="Management Occupations">
 <option value="Chief Executives">
@@ -5421,12 +5421,33 @@ I Plan on Working Here
 <option value="Mine Shuttle Car Operators">
 <option value="Tank Car, Truck, and Ship Loaders">
 <option value="Material Moving Workers, All Other">
+<option value="Railroad Conductors and Yardmasters">
+<option value="Sailors and Marine Oilers">
+<option value="Captains, Mates, and Pilots of Water Vessels">
+<option value="Parking Lot Attendants">
+<option value="Automotive and Watercraft Service Attendants">
+<option value="Transportation Inspectors">
+<option value="Transportation Workers, All Other">
+<option value="Conveyor Operators and Tenders">
+<option value="Crane and Tower Operators">
+<option value="Excavating and Loading Machine and Dragline Operators">
+<option value="Loading Machine Operators, Underground Mining">
+<option value="Hoist and Winch Operators">
+<option value="Industrial Truck and Tractor Operators">
+<option value="Cleaners of Vehicles and Equipment">
+<option value="Laborers and Freight, Stock, and Material Movers, Hand">
+<option value="Machine Feeders and Offbearers">
+<option value="Packers and Packagers, Hand">
+<option value="Gas Compressor and Gas Pumping Station Operators">
+<option value="Pump Operators, Except Wellhead Pumpers">
+<option value="Refuse and Recyclable Material Collectors">
+<option value="Mine Shuttle Car Operators">
+<option value="Tank Car, Truck, and Ship Loaders">
+<option value="Material Moving Workers, All Other">
 </datalist>
 
 </br>
-<h3> OR </h3>
-
-I Plan on Working in 
+I Plan on Working in the state 
 <input list="JobStates" name ="JobStates" value = "">
 	<datalist id="JobStates">
 		<option value="AL">
@@ -5479,27 +5500,3 @@ I Plan on Working in
 		<option value="WI">
 		<option value="WY">
 	</datalist>
-<option value="Railroad Conductors and Yardmasters">
-<option value="Sailors and Marine Oilers">
-<option value="Captains, Mates, and Pilots of Water Vessels">
-<option value="Parking Lot Attendants">
-<option value="Automotive and Watercraft Service Attendants">
-<option value="Transportation Inspectors">
-<option value="Transportation Workers, All Other">
-<option value="Conveyor Operators and Tenders">
-<option value="Crane and Tower Operators">
-<option value="Excavating and Loading Machine and Dragline Operators">
-<option value="Loading Machine Operators, Underground Mining">
-<option value="Hoist and Winch Operators">
-<option value="Industrial Truck and Tractor Operators">
-<option value="Cleaners of Vehicles and Equipment">
-<option value="Laborers and Freight, Stock, and Material Movers, Hand">
-<option value="Machine Feeders and Offbearers">
-<option value="Packers and Packagers, Hand">
-<option value="Gas Compressor and Gas Pumping Station Operators">
-<option value="Pump Operators, Except Wellhead Pumpers">
-<option value="Refuse and Recyclable Material Collectors">
-<option value="Mine Shuttle Car Operators">
-<option value="Tank Car, Truck, and Ship Loaders">
-<option value="Material Moving Workers, All Other">
-</datalist></p></p>

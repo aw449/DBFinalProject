@@ -213,7 +213,7 @@ rs6.next();
 
 <!-- Start table formatting -->
 <div class="panel panel-default">
-<div class="container-fluid">
+<div class="container-fluid" style="text-align:center">
 	<div class="row">
 		<div class="col-md-6">
 			<h4>Median Annual Wages for Similar Majors</h4>

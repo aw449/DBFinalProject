@@ -41,7 +41,6 @@ I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to
 </p>
 <button type="button" id="advanced_options_button">Advanced Options</button>
 <div style="display:none" id ="advanced_options">
-	<p>LOOK AT ME I'M MR MEESEEKS</p>
 	<jsp:include page="advancedoptions.jsp"></jsp:include>
 </div>
 </form>
