@@ -114,6 +114,24 @@ ResultSet rs3 = the_statement.executeQuery();
 rs3.next();
 %>
 
+<%
+String q7 = "SELECT avg(a.UgradTut) as InStateU, avg(a.GradTut) as InStateG, avg(b.UgradTut) as OutStateU, avg(b.GradTut) as OutStateG from  (SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q7);
+ResultSet rs4 = the_statement.executeQuery();
+rs4.next();
+%>
+
+<%
+String q8 = "SELECT MEDIAN_ANNUAL_WAGES as UgradWages, (MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))) as GradWages from innodb.Majors where MAJOR_SUBGROUP = '" + major + "';";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q8);
+ResultSet rs5 = the_statement.executeQuery();
+rs5.next();
+double UgradWages = rs5.getDouble("UgradWages");
+double GradWages = rs5.getDouble("GradWages");
+%>
+
 <!-- Start text formatting -->
 
 <!-- Section For Major Information -->
@@ -156,6 +174,31 @@ rs3.next();
 			<hr>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h4>If you go to Graduate School, you will earn, on average, <font color="green">$<%= GradWages%></font> annually versus <font color="red">$<%= UgradWages %></font> annually if you go straight into industry. That's a <b>$<%=GradWages-UgradWages %></b> difference per year!</h4>
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Average Tuition for My Major</h4>
+			<table class="table table-responsive table-condensed" >
+				<tr>
+					<th style="text-align:center">Undergrad In State</th>
+					<th style="text-align:center">Grad In State</th>
+					<th style="text-align:center">Undergrad Out State</th>
+					<th style="text-align:center">Grad Out State</th>
+				</tr>
+				<tr>
+					<td style="text-align:center">$<%=rs4.getString("InStateU") %></td>
+					<td style="text-align:center">$<%=rs4.getString("InStateG") %></td>
+					<td style="text-align:center">$<%=rs4.getString("OutStateU") %></td>
+					<td style="text-align:center">$<%=rs4.getString("OutStateG") %></td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
 </div>
 
@@ -186,6 +229,7 @@ rs3.next();
 rs1.close();
 rs2.close();
 rs3.close();
+rs4.close();
 con.close();
 %>
 </body>
