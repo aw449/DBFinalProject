@@ -115,7 +115,7 @@ rs3.next();
 %>
 
 <%
-String q7 = "SELECT avg(a.UgradTut) as InStateU, avg(a.GradTut) as InStateG, avg(b.UgradTut) as OutStateU, avg(b.GradTut) as OutStateG from  (SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
+String q7 = "SELECT Round(avg(a.UgradTut),2) as InStateU, Round(avg(a.GradTut),2) as InStateG, Round(avg(b.UgradTut),2) as OutStateU, Round(avg(b.GradTut),2) as OutStateG from  (SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q7);
 ResultSet rs4 = the_statement.executeQuery();
@@ -123,7 +123,7 @@ rs4.next();
 %>
 
 <%
-String q8 = "SELECT MEDIAN_ANNUAL_WAGES as UgradWages, (MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))) as GradWages from innodb.Majors where MAJOR_SUBGROUP = '" + major + "';";
+String q8 = "SELECT Round(MEDIAN_ANNUAL_WAGES,2) as UgradWages, Round((MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))),2) as GradWages from innodb.Majors where MAJOR_SUBGROUP = '" + major + "';";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q8);
 ResultSet rs5 = the_statement.executeQuery();
