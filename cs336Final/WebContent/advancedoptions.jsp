@@ -4671,7 +4671,7 @@ I Plan on Studying in
 
 
 <h2> Job Details </h2>
-I Plan on Working Here 
+I Plan on Working as a
 <input list="Occupations" name="Occupations" value ="">
 <datalist id="Occupations">
 <option value="Management Occupations">
@@ -5424,9 +5424,9 @@ I Plan on Working Here
 </datalist>
 
 </br>
-<h3> OR </h3>
 
-I Plan on Working in 
+
+My Job Will be Located in 
 <input list="JobStates" name ="JobStates" value = "">
 	<datalist id="JobStates">
 		<option value="AL">
