@@ -66,8 +66,8 @@ In Major, there is 'graduate wage premium' and 'median annual wage'
 combine this with college costs to determine opportunity cost
 */
 
-SELECT (sub1.G*8 / sub2.GradWages) as YearsToPayOffDebt, (sub2.UgradWages*4 + sub1.G*8)OC,
- (sub2.UgradWages*4 + sub1.G*8)/sub2.GradWages as YearsToMakeUpOC
+SELECT (sub1.G*4 / sub2.GradWages) as YearsToPayOffDebt, (sub2.UgradWages*2 + sub1.G*4)OC,
+ (sub2.UgradWages*2 + sub1.G*4)/sub2.GradWages as YearsToMakeUpOC
 from (
 SELECT (InStateU + OutStateU) /2 as U, (InStateG + OutStateG) /2 as G 
 from (
