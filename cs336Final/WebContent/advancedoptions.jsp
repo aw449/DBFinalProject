@@ -4731,7 +4731,7 @@ I would like to maximize my <input type = "number" name="YearEarnings"> year ear
 <br> (Entering a value over 60 will result in maximizing average lifetime earnings )
 <br>
 
-I will have a scholarship of <input type = "number" name="Scholarship"> dollars
+I will have a scholarship of <input type = "number" name="Scholarship"> dollars every semester
 <br>
 I will take <input type = "number" name="YearsToJob"> years to find a job
 <br>
