@@ -152,6 +152,30 @@ rs7.next();
 fos = rs7.getString("Field_of_Study");
 %>
 
+<%
+String q11 = "SELECT B_SWE, M_SWE FROM " + fos + " WHERE Occupation = \"All occupations\"";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q11);
+ResultSet rs8 = the_statement.executeQuery();
+rs8.next();
+%>
+
+<%
+String q12 = "SELECT Occupation, B_SWE FROM " + fos + " WHERE Occupation <> \"All occupations\" and B_SWE <> \"(B)\" ORDER BY B_SWE DESC LIMIT 3";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q12);
+ResultSet rs9 = the_statement.executeQuery();
+rs9.next();
+%>
+
+<%
+String q13 = "SELECT Occupation, M_SWE FROM " + fos + " WHERE Occupation <> \"All occupations\" and M_SWE <> \"(B)\" ORDER BY M_SWE DESC LIMIT 3";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q13);
+ResultSet rs10 = the_statement.executeQuery();
+rs10.next();
+%>
+
 <!-- Start text formatting -->
 
 <!-- Section For Major Information -->
@@ -165,13 +189,13 @@ fos = rs7.getString("Field_of_Study");
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<h4>Percentage of People with Graduate Degrees: <%=rs1.getString("Graduate_Degree_Attainment") %>%</h4>
+			<h4>Percentage of People with Graduate Degrees: <b><%=rs1.getString("Graduate_Degree_Attainment") %>%</b></h4>
 		</div>
 		<div class="col-md-4">
-			<h4>Median Annual Wages: $<%=rs1.getString("Median_Annual_Wages") %></h4>
+			<h4>Median Annual Wages: <b>$<%=rs1.getString("Median_Annual_Wages") %></b></h4>
 		</div>
 		<div class="col-md-4">
-			<h4>Graduate Wage Premium: <%=rs1.getString("Graduate_Degree_Wage_Premium") %>%</h4>
+			<h4>Graduate Wage Premium: <b><%=rs1.getString("Graduate_Degree_Wage_Premium") %>%</b></h4>
 		</div>
 	</div>
 	<div class="row">
@@ -180,6 +204,60 @@ fos = rs7.getString("Field_of_Study");
 		</div>
 		<div class="col-md-6">
 			<h4>Out of the 14 Major Groups, your Major Group Ranks <b><%=rs2.getString("Rank")%></b> for highest Average Annual Wage </h4>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Your Major falls under the Field of Study: <b><%= fos %></b></h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Over your career, your estimated total earnings are <b><%=rs8.getString("M_SWE") %></b> with a Masters degree and <b><%=rs8.getString("B_SWE")%></b> with a Bachelors Degree</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+			<h4>Top 3 Highest Paying Occupations for your Field of Study</h4>
+			<table class="table table-responsive, table-condensed">
+				<thead>
+				<tr>
+					<th colspan="2">Bachelors</th>
+					<th colspan="2">Masters</th>
+				</tr>
+				</thead>
+				<tbody style="text-align:left">
+				<tr>
+					<th> Occupation </th>
+					<th> Lifetime Earnings </th>
+					<th> Occupation </th>
+					<th> Lifetime Earnings </th>
+				</tr>
+				<tr>
+					<td><%=rs9.getString("Occupation") %></td>
+					<td><%=rs9.getString("B_SWE") %></td>
+					<td><%=rs10.getString("Occupation") %></td>
+					<td><%=rs10.getString("M_SWE") %></td>
+				</tr>
+				<% rs9.next(); rs10.next();%>
+				<tr>
+					<td><%=rs9.getString("Occupation") %></td>
+					<td><%=rs9.getString("B_SWE") %></td>
+					<td><%=rs10.getString("Occupation") %></td>
+					<td><%=rs10.getString("M_SWE") %></td>
+				</tr>
+				<% rs9.next(); rs10.next();%>
+				<tr>
+					<td><%=rs9.getString("Occupation") %></td>
+					<td><%=rs9.getString("B_SWE") %></td>
+					<td><%=rs10.getString("Occupation") %></td>
+					<td><%=rs10.getString("M_SWE") %></td>
+				</tr>
+				<% rs9.next(); rs10.next();%>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
