@@ -45,7 +45,7 @@
 <h3>Should I get a masters degree or go straight into industry?</h3>
 <form id="submit_button" method="get" action="Results.jsp" enctype=text/plain>
 <p>
-I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
+I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and live in <jsp:include page="statedropdown.jsp"/> 
 <input type="submit" value="submit"/>
 </p>
 <button type="button" id="advanced_options_button">Advanced Options</button>
@@ -63,7 +63,7 @@ I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to
 <h3>Should I get a masters degree or go straight into industry?</h3>
 <form id="submit_button" method="get" action="Results.jsp" enctype=text/plain>
 <p>
-I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
+I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and live in <jsp:include page="statedropdown.jsp"/> 
 <input type="submit" value="submit"/>
 </p>
 <button type="button" id="advanced_options_button">Advanced Options</button>

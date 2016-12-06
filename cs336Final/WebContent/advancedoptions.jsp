@@ -1,5 +1,6 @@
-<h4> College Details </h4>
-I Plan on Attending 
+<h4> College Details. </h4>
+
+I would like to go to
 <input list="Colleges" name="Colleges" value ="" style="width:300px">
 <datalist id="Colleges">
 	<option value="Alabama A & M University">
@@ -4611,7 +4612,8 @@ I Plan on Attending
 	<option value="Academy of Interactive Entertainment">
 	<option value="Shepherd University">
 	</datalist>
-'s Graduate School to get a degree in 
+'s Graduate School <br>
+I would like to get a degree in 
 <input list="GradMajors" name="GradMajors" style="width:240px">
 	<datalist id="GradMajors">
  	 	<option value="Agricultural economics">
@@ -4664,10 +4666,9 @@ I Plan on Attending
 		<option value="History">
 		</datalist>
 
-<br>
-<h4> OR </h4>
+<br>or<br>
 
-I Plan on Studying in the State
+I don't know what college I want to attend, but I want to attend in	
 <input list="CollegeStates" name ="CollegeStates" value = "">
 	<datalist id="CollegeStates">
 		<option value="AL">
@@ -4720,11 +4721,25 @@ I Plan on Studying in the State
 		<option value="WI">
 		<option value="WY">
 	</datalist>
-Max Tuition: <input type = "number" name="MaxTuition">
+state
+<br>
+I would like the tuition to be no more than <input type = "number" name="MaxTuition">
+<br>
+I would like to be in debt for no more than <input type = "number" name="YearsDebt"> years
+<br>
+I would like to maximize my <input type = "number" name="YearEarnings"> year earnings
+<br> (Entering a value over 60 will result in maximizing average lifetime earnings )
+<br>
+
+I will have a scholarship of <input type = "number" name="Scholarship"> dollars
+<br>
+I will take <input type = "number" name="YearsToJob"> years to find a job
+<br>
+I will take <input type = "number" name="YearsToGrad"> years to graduate
 <br>
 
 <h4> Job Details </h4>
-My desired Occupation is  
+I would like to work as a 
 <input list="Occupations" name="Occupations" value ="" style="width:300px">
 <datalist id="Occupations">
 <option value="Management Occupations">
@@ -5500,7 +5515,7 @@ My desired Occupation is
 </datalist>
 
 
-<br>My Job Will be Located in 
+<br>I would like to work in 
 <input list="JobStates" name ="JobStates" value = "">
 	<datalist id="JobStates">
 		<option value="AL">
@@ -5553,3 +5568,10 @@ My desired Occupation is
 		<option value="WI">
 		<option value="WY">
 	</datalist>
+
+
+	
+
+
+
+
