@@ -30,7 +30,7 @@
 <title>Masters or Job?</title>
 </head>
 <body>
-<div class = "container">
+<div class = "container-fluid">
 	<ul class="nav nav-tabs">
 	  <li class="active"><a data-toggle="tab" href="#home">Basic Search</a></li>
 	  <li><a data-toggle="tab" href="#comparemaj">Compare Majors</a></li>
@@ -43,7 +43,7 @@
 			<div class = "jumbotron">
 				<h1>Masters or Job</h1>
 				<h3>Should I get a masters degree or go straight into industry?</h3>
-				<form id="submit_button" method="get" action="Results.jsp" enctype=text/plain >
+				<form id="submit_button1" method="get" action="Results.jsp" enctype=text/plain >
 				<p>
 				I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and live in <jsp:include page="statedropdown.jsp"/> 
 				<input type="submit" class="btn btn-default" value="submit"/>
@@ -62,7 +62,7 @@
 				
 				<h1>Compare Majors</h1>
 				<h3>Not All Majors are Created Equal</h3>
-				<form id="submit_button1" method="get" action="Compare.jsp" enctype=text/plain>
+				<form id="submit_button2" method="get" action="Compare.jsp" enctype=text/plain>
 				
 				<div class="container-fluid" style="margin:auto">
 					<div class="row">
@@ -85,7 +85,7 @@
 				
 				<h1>Compare School</h1>
 				<h3>My School is Better than Yours</h3>
-				<form id="submit_button2" method="get" action="Compare.jsp" enctype=text/plain>
+				<form id="submit_button" method="get" action="CompareSchoolsRes.jsp" enctype=text/plain>
 				
 				<div class="container-fluid" style="margin:auto">
 					<div class="row">
@@ -96,6 +96,12 @@
 							<h4>School 2</h4> <jsp:include page="school2dropdown.jsp"/> 
 						</div>
 					</div>
+					<br>
+					<div class="row">					
+						<div class="col-md-6 col-md-offset-4">
+						<h4>Narrow Down By Major</h4> <jsp:include page="major3dropdown.jsp"/>
+						</div>
+					</div>
 				</div>
 				<br>
 				<input type="submit" value="submit" class="btn btn-default" />
@@ -103,6 +109,6 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 </body>
 </html>

@@ -213,7 +213,7 @@ rs11.next();
 <div class="container-fluid" style="text-align:center; margin:auto">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
+			<h2 style="text-align:center">Facts About My Major: <%=major %></h2>
 			<hr>
 		</div>
 	</div>
