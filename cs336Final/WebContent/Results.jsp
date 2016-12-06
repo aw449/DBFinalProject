@@ -46,7 +46,7 @@ Map<String, String> dataMap = getDataMap(con,q1,"Major_Group","Wages");
 Gson gson = new Gson();
 
 FusionCharts lineChart0 = new FusionCharts(
-        "column2d",// chartType
+        "bar2d",// chartType
         "ex1",// chartId
         "600","400",// chartWidth, chartHeight
         "chart2",// chartContainer
@@ -94,13 +94,30 @@ FusionCharts lineChart2 = new FusionCharts(
 String q4 = "SELECT maj.Graduate_Degree_Attainment, maj.Median_Annual_Wages, maj.Graduate_Degree_Wage_Premium FROM Major maj where Major_Subgroup = \"" + major + "\"";
 Statement stmt = con.createStatement();
 PreparedStatement the_statement = con.prepareStatement(q4);
-ResultSet rs = the_statement.executeQuery();
-rs.next();
+ResultSet rs1 = the_statement.executeQuery();
+rs1.next();
 %>
+
+<%
+String q5 = "SELECT count(distinct m1.Major_Group) as Rank FROM (SELECT maj.Major_Group, avg(maj.Median_Annual_Wages) as Average_Annual_Wages FROM Major maj GROUP BY maj.Major_Group ORDER BY avg(maj.Median_Annual_Wages) DESC) m1, Major m2 WHERE m2.Major_Subgroup = \""+major+"\" and m1.Average_Annual_Wages >= m2.Median_Annual_Wages;";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q5);
+ResultSet rs2 = the_statement.executeQuery();
+rs2.next();
+%>
+
+<%
+String q6 = "SELECT Major_Group FROM Major where Major_Subgroup = \"" + major + "\"";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q6);
+ResultSet rs3 = the_statement.executeQuery();
+rs3.next();
+%>
+
 <!-- Start text formatting -->
 
 <div class="panel panel-default">
-<div class="container-fluid">
+<div class="container-fluid" style="text-align:center">
 	<div class="row">
 		<div class="col-mid-12">
 			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
@@ -108,13 +125,21 @@ rs.next();
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<h4>Percentage of People with Graduate Degrees: <%=rs.getString("Graduate_Degree_Attainment") %>%</h2>
+			<h4>Percentage of People with Graduate Degrees: <%=rs1.getString("Graduate_Degree_Attainment") %>%</h4>
 		</div>
 		<div class="col-md-4">
-			<h4>Median Annual Wages: $<%=rs.getString("Median_Annual_Wages") %></h2>
+			<h4>Median Annual Wages: $<%=rs1.getString("Median_Annual_Wages") %></h4>
 		</div>
 		<div class="col-md-4">
-			<h4>Graduate Wage Premium: <%=rs.getString("Graduate_Degree_Wage_Premium") %>%</h2>
+			<h4>Graduate Wage Premium: <%=rs1.getString("Graduate_Degree_Wage_Premium") %>%</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>Your Major falls under the Major Group: <%=rs3.getString("Major_Group") %></h4>
+		</div>
+		<div class="col-md-4">
+			<h4>Out of the 14 Major Groups, your Major Group Ranks <b><%=rs2.getString("Rank")%></b> for highest Average Annual Wage </h4>
 		</div>
 	</div>
 </div>
@@ -134,7 +159,7 @@ rs.next();
 		</div>
 	<div class="row">
 		<div class="col-md-6">
-			<h4>Average Annual Wages by State</h4>
+			<h4>Average Annual Wages For Occupations with the  Major <%=major %> by State</h4>
 			<div id="chart4"></div>	
 		</div>
 	</div>
@@ -143,6 +168,9 @@ rs.next();
 </div>
 
 <%
+rs1.close();
+rs2.close();
+rs3.close();
 con.close();
 %>
 </body>
