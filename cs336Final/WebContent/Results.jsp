@@ -83,7 +83,7 @@ Map<String, String> dataMap2 = getStateMap(con,q3,"ST","StateWage");
 FusionCharts lineChart2 = new FusionCharts(
         "maps/usa",// chartType
         "ex4",// chartId
-        "800","600",// chartWidth, chartHeight
+        "600","400",// chartWidth, chartHeight
         "chart4",// chartContainer
         "json",// dataFormat
         // dataSource
@@ -183,6 +183,28 @@ the_statement = con.prepareStatement(q14);
 ResultSet rs11 = the_statement.executeQuery();
 rs11.next();
 %>
+
+<%
+	
+	double UgradStart_y = 0;	
+	double GradStart_y = -1*rs6.getDouble("InStateG");
+	
+	double GradintersectCalc = (2*GradStart_y) - (2*GradWages) ;
+	double xinter = intersectx(UgradWages,GradWages,UgradStart_y,GradintersectCalc); 
+	
+	Map<String, String> dataMap3 = getLineChart(UgradWages,GradWages,GradStart_y);
+	FusionCharts lineChart3 = new FusionCharts(
+	        "msline",// chartType
+	        "ex5",// chartId
+	        "600","400",// chartWidth, chartHeight
+	        "chart5",// chartContainer
+	        "json",// dataFormat
+	        // dataSource
+			gson.toJson(dataMap3)
+			);
+	
+%>
+<%= lineChart3.render()%>
 
 <!-- Start text formatting -->
 
@@ -329,9 +351,14 @@ rs11.next();
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
 			<h4>Average Annual Wages For Occupations with the  Major <%=major %> by State</h4>
 			<div id="chart4"></div>	
+		</div>
+		<div class="col-md-6">
+			<h4>Undergraduate versus Graduate Wages for <%=major %> Majors</h4>
+			<div id="chart5"></div>	
+			<h4>You will break even in <%=xinter%> years</h4>
 		</div>
 	</div>
 </div>
