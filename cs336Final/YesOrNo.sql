@@ -9,6 +9,8 @@ The user will graduate in a standard amount of years.
 The user will find a job immediately after graduation.
 The user wishes to enter a good college.
 
+We want to decide whether the user should go to college or not, given just what state they live in, 
+and what major they want. 
 
 Create an algorithm to weight several factors, given
 State and major.
@@ -16,11 +18,14 @@ State only serves to determine that 'instate tuition' for the particular state i
 
 Determine 'tuition' which will be 'instate' for the state the user is in, and 'outstate' otherwise.
 */
-SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College 
-where STABBR = 'NJ';
-
-SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College 
-where STABBR <> 'NJ';
+SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College 
+where STABBR = 'NJ' and InStateUgradTut <> 0 ;
+SELECT UNITID, INSTNM, STABBR, InStateGradTut as GradTutIn FROM innodb.College 
+where STABBR = 'NJ' and InStateGradTut <> 0 ;
+SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTutOut FROM innodb.College 
+where STABBR <> 'NJ' and OutStateUgradTut <> 0 ;
+SELECT UNITID, INSTNM, STABBR, OutStateGradTut as GradTutOut FROM innodb.College 
+where STABBR <> 'NJ' and OutStateGradTut <> 0 ;
 
 /*
 Assume the user is going to pay for college. Estimate that they will pay an average tuition of colleges
@@ -28,26 +33,33 @@ Assume the user will be more likely to stay in state rather than go out of state
 	Weight the in-state average as 50% to the out-state average as 50%, despite there being many more out-state universities.
 */
 
-SELECT avg(a.UgradTut) as InStateU, avg(a.GradTut) as InStateG, avg(b.UgradTut) as OutStateU, avg(b.GradTut) as OutStateG
+SELECT avg(a.UgradTutIn) as InStateU, avg(b.GradTutIn) as InStateG, avg(c.UgradTutOut) as OutStateU, avg(d.GradTutOut) as OutStateG
 from 
-(SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College 
-where STABBR = 'NJ') a, 
-(SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College 
-where STABBR <> 'NJ')b;
+(SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College 
+where STABBR = 'NJ' and InStateUgradTut <> 0)a,
+(SELECT UNITID, INSTNM, STABBR, InStateGradTut as GradTutIn FROM innodb.College 
+where STABBR = 'NJ' and InStateGradTut <> 0)b,
+(SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTutOut FROM innodb.College 
+where STABBR <> 'NJ' and OutStateUgradTut <> 0)c,
+(SELECT UNITID, INSTNM, STABBR, OutStateGradTut as GradTutOut FROM innodb.College 
+where STABBR <> 'NJ' and OutStateGradTut <> 0)d;
 
 /*
 Determine the tuition that the user will pay
 */
 SELECT (InStateU + OutStateU) /2 as U, (InStateG + OutStateG) /2 as G 
 from (
-	
-	SELECT avg(a.UgradTut) as InStateU, avg(a.GradTut) as InStateG, avg(b.UgradTut) as OutStateU, avg(b.GradTut) as OutStateG
+	SELECT avg(a.UgradTutIn) as InStateU, avg(b.GradTutIn) as InStateG, avg(c.UgradTutOut) as OutStateU, avg(d.GradTutOut) as OutStateG
 	from 
-	(SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College 
-	where STABBR = 'NJ') a, 
-	(SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College 
-	where STABBR <> 'NJ')b
-    )c;
+	(SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College 
+	where STABBR = 'NJ' and InStateUgradTut <> 0)a,
+	(SELECT UNITID, INSTNM, STABBR, InStateGradTut as GradTutIn FROM innodb.College 
+	where STABBR = 'NJ' and InStateGradTut <> 0)b,
+	(SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTutOut FROM innodb.College 
+	where STABBR <> 'NJ' and OutStateUgradTut <> 0)c,
+	(SELECT UNITID, INSTNM, STABBR, OutStateGradTut as GradTutOut FROM innodb.College 
+	where STABBR <> 'NJ' and OutStateGradTut <> 0)d
+)e;
 
 /*
 Assume the user will take a job related to their field, and earn a median wage
@@ -66,28 +78,50 @@ In Major, there is 'graduate wage premium' and 'median annual wage'
 combine this with college costs to determine opportunity cost
 */
 
-SELECT (sub1.G*4 / sub2.GradWages) as YearsToPayOffDebt, (sub2.UgradWages*2 + sub1.G*4)OC,
- (sub2.UgradWages*2 + sub1.G*4)/sub2.GradWages as YearsToMakeUpOC
-from (
-SELECT (InStateU + OutStateU) /2 as U, (InStateG + OutStateG) /2 as G 
-from (
-	SELECT avg(a.UgradTut) as InStateU, avg(a.GradTut) as InStateG, avg(b.UgradTut) as OutStateU, avg(b.GradTut) as OutStateG
-		from 
-		(SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College 
-		where STABBR = 'NJ') a, 
-		(SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College 
-		where STABBR <> 'NJ')b
-		)c
-	)sub1,
-    (
-		SELECT MEDIAN_ANNUAL_WAGES as UgradWages, (MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))) as GradWages 
-		from innodb.Majors
-		where MAJOR_SUBGROUP = 'Chemistry'
-	)sub2;
+SELECT ROUND((sub3.G*4 / sub4.GradWages)*100)/100 as YearsToPayOffDebt, ROUND((sub4.UgradWages*2 + sub3.G*4)*100)/100 as OC,
+ROUND((sub4.UgradWages*2 + sub3.G*4)/sub4.GradWages*100)/100 as YearsToMakeUpOC
+from(
+	(SELECT (sub1.InStateU + sub2.OutStateU)/2 as U, (sub1.InStateG + sub2.OutStateG)/2 as G
+	from 
+	(
+		(
+		SELECT avg(a.UgradTutIn) as InStateU, avg(b.GradTutIn) as InStateG
+		from (
+			(SELECT UNITID, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College 
+			where STABBR = 'NJ' and InStateUgradTut <> 0)a,
+			(SELECT UNITID, STABBR, InStateGradTut as GradTutIn FROM innodb.College 
+			where STABBR = 'NJ' and InStateGradTut <> 0)b
+		)
+		where a.UNITID = b.UNITID
+		)sub1,
+		(
+		SELECT avg(c.UgradTutOut) as OutStateU, avg(d.GradTutOut) as OutStateG
+		from (
+			(SELECT UNITID, STABBR, OutStateUgradTut as UgradTutOut FROM innodb.College 
+			where STABBR <> 'NJ' and OutStateUgradTut <> 0)c,
+			(SELECT UNITID, STABBR, OutStateGradTut as GradTutOut FROM innodb.College 
+			where STABBR <> 'NJ' and OutStateGradTut <> 0)d
+		)
+		where c.UNITID = d.UNITID
+		)sub2
+	)
+    )sub3,
+	(
+	SELECT MEDIAN_ANNUAL_WAGES as UgradWages, (MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))) as GradWages 
+	from innodb.Majors
+	where MAJOR_SUBGROUP = 'Chemistry'
+	)sub4
+);
     
     
-    
-/*Determine Lifetime Earnings */
+/*
+
+
+*/
+
+
+
+
 
 
     
