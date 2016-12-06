@@ -176,6 +176,14 @@ ResultSet rs10 = the_statement.executeQuery();
 rs10.next();
 %>
 
+<%
+String q14 = "SELECT * FROM OpportunityCosts WHERE State = '" + state + "' and Major = '" + major + "'";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q14);
+ResultSet rs11 = the_statement.executeQuery();
+rs11.next();
+%>
+
 <!-- Start text formatting -->
 
 <!-- Section For Major Information -->
@@ -280,6 +288,12 @@ rs10.next();
 	</div>
 	<div class="row">
 		<div class="col-md-12">
+			<h4>The estimated Opportunity cost for going to Graduate School with your Major and State is <b>$<%=rs11.getString("OC") %></b> which will take on average <b><%=rs11.getString("YearsToMakeUPOC") %></b> years to make up</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
 			<h4>Average Tuition</h4>
 			<table class="table table-responsive table-condensed" >
 				<tr>
@@ -313,13 +327,13 @@ rs10.next();
 			<h4>Median Annual Wages for Major Groups</h4>
 			<div id="chart2"></div>	
 		</div>
+	</div>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<h4>Average Annual Wages For Occupations with the  Major <%=major %> by State</h4>
 			<div id="chart4"></div>	
 		</div>
 	</div>
-</div>
 </div>
 </div>
 
