@@ -1,5 +1,8 @@
 <h4> College Details. </h4>
 
+Warning: If you enter an advanced query, execution will be slow.
+<br>
+<br>
 I would like to go to
 <input list="Colleges" name="Colleges" value ="" style="width:300px">
 <datalist id="Colleges">

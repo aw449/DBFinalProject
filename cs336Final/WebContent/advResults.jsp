@@ -95,7 +95,7 @@ session.setAttribute("State", state);
 //Add the very large query, with customizable options depending on what the user does or does not select.
 
 StringBuilder LargeQuery = new StringBuilder();
-LargeQuery.append("SELECT (ROUND(((sub3.G-"+Scholarship+"*2*"+YearsToGrad+ ") / sub4.GradWages)*100)/100) + "+YearsToJob+" as YearsToPayOffDebt, ");
+LargeQuery.append("SELECT sub3.G as tuition, (ROUND(((sub3.G-"+Scholarship+"*2*"+YearsToGrad+ ") / sub4.GradWages)*100)/100) + "+YearsToJob+" as YearsToPayOffDebt, ");
 LargeQuery.append("ROUND(sub4.UgradWages*"+YearsToGrad+ " + (sub3.G-"+Scholarship+")*400)/100 as OC, ");
 LargeQuery.append("ROUND((sub4.UgradWages*"+YearsToGrad+ " + (sub3.G-"+Scholarship+")*4)/(sub4.GradWages - sub4.UgradWages)*100)/100 + "+YearsToJob+" as YearsToMakeUpOC ");
 LargeQuery.append("from(( ");
@@ -181,14 +181,14 @@ LargeQuery.append("); ");
 //
 //	I would like to maximize my __ year earnings.
 //
-//	I would like to maximize my lifelong earnings.
-System.out.println(LargeQuery.toString());
+//	I would like to pay less than the maximum tuition I set.
 	the_statement = con.prepareStatement(LargeQuery.toString());
 	ResultSet rsLarge = the_statement.executeQuery();
 	rsLarge.next();
 	String OC = rsLarge.getString("OC");
 	String YOC = rsLarge.getString("YearsToMakeUpOC");
 	String YOD= rsLarge.getString("YearsToPayOffDebt");
+	String tut = rsLarge.getString("tuition");
 	YesOrNo = "Yes";
 if(YearsDebt != "" ){
 	if(Double.parseDouble(YOD) > Double.parseDouble(YearsDebt))
@@ -198,56 +198,16 @@ if(YearEarnings != ""){
 	if(Double.parseDouble(YOC) > Double.parseDouble(YearEarnings))
 		YesOrNo = "No";
 }
+if(MaxTuition != ""){
+	if(Double.parseDouble(tut) > Double.parseDouble(MaxTuition))
+		YesOrNo = "No";	
+}
 //Lifelong here
 if(YesOrNo.equals("Yes"))
-	out.print("<h4>Yes, you should pursue a Graduate degree!</h4>");
+	YesOrNo = "Yes, you should pursue a Graduate degree!";
 else
-	out.print("<h4>No, you should not pursue a Graduate degree.</h4>");
+	YesOrNo = "No, you should not pursue a Graduate degree.";
 
-
-
-
-//Send Query if not null
-if(CollegeState != "" && MaxTuition !=""){
-	String tuitiontype = "OutState";
-	if(CollegeState.equals(state)){
-		tuitiontype = "InState";
-	}
-	
-	String q1 = "SELECT c.INSTNM,c."+tuitiontype+"GradTut as Tuition From College c WHERE c.STABBR = \""+ state + "\" and c.InStateGradTut <= " + MaxTuition +" and c."+tuitiontype+"GradTut <> 0 ORDER BY c."+tuitiontype+"GradTut ASC LIMIT 10;";
-	the_statement = con.prepareStatement(q1);
-	ResultSet rs1 = the_statement.executeQuery();
-	rs1.next();
-	out.print("<h4>Something About Tuition</h4>");
-	out.print("<table class=\"table table-striped\">");
-	//make a row
-	out.print("<tr>");
-	//make a column
-	out.print("<td>");
-	//print out column header
-	out.print("College");
-	out.print("</td>");
-	//make a column
-	out.print("<td>");
-	out.print("Tuition");
-	out.print("</td>");
-	out.print("</tr>");
-	while(rs1.next()){
-		out.print("<tr>");
-		//make a column
-		out.print("<td>");
-		//print out column header
-		out.print(rs1.getString("INSTNM"));
-		out.print("</td>");
-		//make a column
-		out.print("<td>");
-		out.print(rs1.getString("Tuition"));
-		out.print("</td>");
-		out.print("</tr>");
-	}
-	out.print("</table>");
-	con.close();	
-}
 
 %>
 	<hr>
@@ -368,7 +328,6 @@ rs5s.append("from innodb.Majors ");
 rs5s.append("where MAJOR_SUBGROUP = \'"+major+"\' ");
 the_statement.clearBatch();
 the_statement = con.prepareStatement(rs5s.toString());
-System.out.println(rs5s.toString());
 ResultSet rs5 = the_statement.executeQuery();
 rs5.next();
 double UgradWages = rs5.getDouble("UgradWages");
@@ -412,7 +371,6 @@ else{ // We know nothing, Jon Snow. Except where you live.
 	}
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q9);
-System.out.println(q9);
 ResultSet rs6 = the_statement.executeQuery();
 rs6.next();
 
@@ -489,6 +447,7 @@ rs11.next();
 <div class="container-fluid" style="text-align:center; margin:auto">
 	<div class="row">
 		<div class="col-md-12">
+		    <h2 style="text-align:center"><%=YesOrNo%></h2>
 			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
 			<hr>
 		</div>
@@ -568,7 +527,52 @@ rs11.next();
 	</div>
 </div>
 </div>
+<%
 
+
+//Send Query if not null
+if(CollegeState != "" && MaxTuition !=""){
+	String tuitiontype = "OutState";
+	if(CollegeState.equals(state)){
+		tuitiontype = "InState";
+	}
+	
+	q12 = "SELECT c.INSTNM,c."+tuitiontype+"GradTut as Tuition From College c WHERE c.STABBR = \""+ 
+	state + "\" and c.InStateGradTut <= " + MaxTuition +" and c."+tuitiontype+
+	"GradTut <> 0 ORDER BY c."+tuitiontype+"GradTut ASC LIMIT 10;";
+	the_statement = con.prepareStatement(q12);
+	ResultSet rs12 = the_statement.executeQuery();
+	rs1.next();
+	out.print("<h4>Cheapest colleges which fit your max tuition request</h4>");
+	out.print("<table class=\"table table-striped\">");
+	//make a row
+	out.print("<tr>");
+	//make a column
+	out.print("<td>");
+	//print out column header
+	out.print("College");
+	out.print("</td>");
+	//make a column
+	out.print("<td>");
+	out.print("Tuition");
+	out.print("</td>");
+	out.print("</tr>");
+	while(rs12.next()){
+		out.print("<tr>");
+		//make a column
+		out.print("<td>");
+		//print out column header
+		out.print(rs12.getString("INSTNM"));
+		out.print("</td>");
+		//make a column
+		out.print("<td>");
+		out.print(rs12.getString("Tuition"));
+		out.print("</td>");
+		out.print("</tr>");
+	}
+	out.print("</table>");
+}
+ %>
 <!-- Section For Graduate School Information -->
 <div class="panel panel-default">
 <div class="container-fuild" style="text-align:center; margin:auto">
