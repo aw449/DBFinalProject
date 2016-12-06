@@ -31,7 +31,16 @@
 <title>Masters or Job?</title>
 </head>
 <body>
-<div class="jumbotron">
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">Basic Search</a></li>
+  <li><a data-toggle="tab" href="#Compare">Compare Schools</a></li>
+  <li><a href="javascript:void(0)">Compare Majors</a></li>
+  <li><a href="javascript:void(0)">Job Search</a></li>
+</ul>
+
+<div class="tab-content">
+<div id="home" class="tab-pane fade in active">
+<div class = "jumbotron">
 <h1>Masters or Job</h1>
 <h3>Should I get a masters degree or go straight into industry?</h3>
 <form id="submit_button" method="get" action="Results.jsp" enctype=text/plain>
@@ -45,5 +54,27 @@ I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to
 </div>
 </form>
 </div>
+</div>
+
+
+<div id="Compare" class="tab-pane fade">
+<div class ="jumbotron">
+<h1>Masters or Job</h1>
+<h3>Should I get a masters degree or go straight into industry?</h3>
+<form id="submit_button" method="get" action="Results.jsp" enctype=text/plain>
+<p>
+I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
+<input type="submit" value="submit"/>
+</p>
+<button type="button" id="advanced_options_button">Advanced Options</button>
+<div style="display:none" id ="advanced_options">
+	<jsp:include page="advancedoptions.jsp"></jsp:include>
+</div>
+</div>
+</form>
+</div>
+
+</div>
+
 </body>
 </html>

@@ -4667,7 +4667,7 @@ I Plan on Attending
 <br>
 <h4> OR </h4>
 
-I Plan on Studying in the state
+I Plan on Studying in the State
 <input list="CollegeStates" name ="CollegeStates" value = "">
 	<datalist id="CollegeStates">
 		<option value="AL">
@@ -4720,7 +4720,7 @@ I Plan on Studying in the state
 		<option value="WI">
 		<option value="WY">
 	</datalist>
-
+Max Tuition: <input type = "number" name="MaxTuition">
 <br>
 
 <h4> Job Details </h4>
