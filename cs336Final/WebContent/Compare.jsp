@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
-<%@ page import="java.io.*,java.util.*,java.sql.*"%>
+<%@ page import="java.io.*,java.util.*,java.sql.*, java.text.NumberFormat"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="fusioncharts.FusionCharts" %>
 <%@ page import="com.google.gson.*" %>
@@ -33,9 +33,40 @@ Connection con = DriverManager.getConnection(url, "woleng", "analmaDB");
 
 String major1 = request.getParameter("Majors1");
 String major2 = request.getParameter("Majors2");
+String Lifetime_Earnings = "";
+String Limit = "";
+String add_limit = "";
+String add_lte = "";
 String fos1 = "";
 String fos2 = "";
 String q1 = "SELECT Earns.Field_of_Study, MajorGroup.Major_Subgroup FROM Earns, (SELECT DISTINCT m1.Major_Group, m1.Major_Subgroup FROM Major m1 WHERE m1.Major_Subgroup = '" + major1 + "' OR m1.Major_Subgroup = '" + major2 + "') as MajorGroup WHERE Earns.Major_Group = MajorGroup.Major_Group"; 
+String Order = request.getParameter("Order");
+
+String add_Order= " ORDER BY o1.Masters_Earnings1, o2.Masters_Earnings2, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2 " + Order;
+
+if (request.getParameter("Limit").isEmpty()){
+	add_limit = "";
+}
+else{
+	Limit = request.getParameter("Limit");
+	add_limit = " LIMIT " + Limit;
+}
+
+if (request.getParameter("Lifetime_Earnings").isEmpty()){
+	add_lte = "";
+}
+else{
+	Lifetime_Earnings = request.getParameter("Lifetime_Earnings");
+	float temp = Float.parseFloat(Lifetime_Earnings);
+	NumberFormat fmt = NumberFormat.getCurrencyInstance();
+	String Earnings = fmt.format(temp);
+	Earnings = Earnings.substring(0, Earnings.length()-3);
+	Earnings = "'"+Earnings+"'";
+	add_lte = " and STRCMP(o1.Bachelors_Earnings1, " + Earnings + ") >=0" +
+			" and STRCMP(o2.Bachelors_Earnings2, " + Earnings +  ") >=0" +
+			" and STRCMP(o1.Masters_Earnings1, " + Earnings +  ") >=0" +
+			" and STRCMP(o2.Masters_Earnings2, " + Earnings +  ") >=0 ";
+}
 
 Statement stmt = con.createStatement();
 PreparedStatement the_statement = con.prepareStatement(q1);
@@ -52,7 +83,7 @@ while(rs1.next()){
 
 rs1.close();
 
-String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation;";
+String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation " + add_lte + Order + Limit +";";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q2);
 ResultSet rs2 = the_statement.executeQuery();

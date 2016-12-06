@@ -73,6 +73,23 @@
 							<h4>Major 2</h4> <jsp:include page="major2dropdown.jsp"/> 
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<h5>Desired Lifetime Earnings: <input type="number" name="Lifetime_Earnings" value=""><br></h5>
+						</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h5>Limit Results: <input type="number" name="Limit" value=""></h5>
+						</div>
+						<div class="col-md-6">
+							<h5>Order: 
+							<select name="Order">
+								<option value="DESC">Descending</option>
+								<option value="ASC">Ascending</option>
+							</select>
+							</h5>
+						</div>
+					</div>
 				</div>
 				<br>
 				<input type="submit" value="submit" class="btn btn-default" />
