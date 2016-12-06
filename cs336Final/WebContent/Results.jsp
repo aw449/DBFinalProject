@@ -99,7 +99,7 @@ rs1.next();
 %>
 
 <%
-String q5 = "SELECT count(distinct m1.Major_Group) as Rank FROM (SELECT maj.Major_Group, avg(maj.Median_Annual_Wages) as Average_Annual_Wages FROM Major maj GROUP BY maj.Major_Group ORDER BY avg(maj.Median_Annual_Wages) DESC) m1, Major m2 WHERE m2.Major_Subgroup = \""+major+"\" and m1.Average_Annual_Wages >= m2.Median_Annual_Wages;";
+String q5 = "SELECT count(distinct m1.Major_Group) as Rank FROM (SELECT maj.Major_Group, avg(maj.Median_Annual_Wages) as Average_Annual_Wages FROM Major maj GROUP BY maj.Major_Group ORDER BY avg(maj.Median_Annual_Wages) DESC) m1, Major m2 WHERE m1.Average_Annual_Wages >= (SELECT avg(m2.Median_Annual_Wages) from Major m2 where m2.Major_Group = ( SELECT distinct m3.Major_Group from Major m3 where m3.Major_Subgroup = \"" + major + "\"));";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q5);
 ResultSet rs2 = the_statement.executeQuery();
@@ -190,7 +190,7 @@ rs6.next();
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<h4>Average Tuition for My Major</h4>
+			<h4>Average Tuition</h4>
 			<table class="table table-responsive table-condensed" >
 				<tr>
 					<th style="text-align:center">Undergrad In State</th>
