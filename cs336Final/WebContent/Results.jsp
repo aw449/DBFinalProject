@@ -115,7 +115,7 @@ rs3.next();
 %>
 
 <%
-String q7 = "SELECT Round(avg(a.UgradTut),2) as InStateU, Round(avg(a.GradTut),2) as InStateG, Round(avg(b.UgradTut),2) as OutStateU, Round(avg(b.GradTut),2) as OutStateG from  (SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut, InStateGradTut as GradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut, OutStateGradTut as GradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
+String q7 = "SELECT Round(avg(NULLIF(a.UgradTut,0)),2) as InStateU, Round(avg(NULLIF(b.UgradTut,0)),2) as OutStateU from (SELECT UNITID, INSTNM, STABBR, InStateUgradTut as UgradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateUgradTut as UgradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q7);
 ResultSet rs4 = the_statement.executeQuery();
@@ -130,6 +130,14 @@ ResultSet rs5 = the_statement.executeQuery();
 rs5.next();
 double UgradWages = rs5.getDouble("UgradWages");
 double GradWages = rs5.getDouble("GradWages");
+%>
+
+<%
+String q9 = "SELECT Round(avg(NULLIF(a.GradTut,0)),2) as InStateG, Round(avg(NULLIF(b.GradTut,0)),2) as OutStateG from  (SELECT UNITID, INSTNM, STABBR, InStateGradTut as GradTut FROM innodb.College where STABBR = '" + state + "') a, (SELECT UNITID, INSTNM, STABBR, OutStateGradTut as GradTut FROM innodb.College where STABBR <> '" + state +  "')b;";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q9);
+ResultSet rs6 = the_statement.executeQuery();
+rs6.next();
 %>
 
 <!-- Start text formatting -->
@@ -192,9 +200,9 @@ double GradWages = rs5.getDouble("GradWages");
 				</tr>
 				<tr>
 					<td style="text-align:center">$<%=rs4.getString("InStateU") %></td>
-					<td style="text-align:center">$<%=rs4.getString("InStateG") %></td>
+					<td style="text-align:center">$<%=rs6.getString("InStateG") %></td>
 					<td style="text-align:center">$<%=rs4.getString("OutStateU") %></td>
-					<td style="text-align:center">$<%=rs4.getString("OutStateG") %></td>
+					<td style="text-align:center">$<%=rs6.getString("OutStateG") %></td>
 				</tr>
 			</table>
 		</div>
