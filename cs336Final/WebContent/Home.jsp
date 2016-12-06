@@ -77,6 +77,7 @@
 						<div class="col-md-12">
 							<h5>Desired Lifetime Earnings: <input type="number" name="Lifetime_Earnings" value=""><br></h5>
 						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<h5>Limit Results: <input type="number" name="Limit" value=""></h5>
