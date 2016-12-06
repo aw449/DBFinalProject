@@ -41,8 +41,6 @@ String fos1 = "";
 String fos2 = "";
 String q1 = "SELECT Earns.Field_of_Study, MajorGroup.Major_Subgroup FROM Earns, (SELECT m1.Major_Group, m1.Major_Subgroup FROM Major m1 WHERE m1.Major_Subgroup = '" + major1 + "' OR m1.Major_Subgroup = '" + major2 + "') as MajorGroup WHERE Earns.Major_Group = MajorGroup.Major_Group"; 
 String Order = request.getParameter("Order");
-out.print(Order);
-
 String add_Order= " ORDER BY o1.Masters_Earnings1, o2.Masters_Earnings2, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2 " + Order;
 
 if (request.getParameter("Limit").isEmpty()){
@@ -94,7 +92,45 @@ the_statement.clearBatch();
 the_statement = con.prepareStatement(q2);
 ResultSet rs2 = the_statement.executeQuery();
 
+String q3 = "SELECT DISTINCT * FROM Major WHERE Major_Subgroup = '" + major1 + "' OR Major_Subgroup = '" + major2 + "'";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q3);
+ResultSet rs3 = the_statement.executeQuery();
+
 %>
+<h4>Basic Information Regarding the Selected Majors: </h4>
+	<table class="table table-striped table-responsive">
+		<tr>
+			<td>Major Group</td>
+			<td>Major</td>
+			<td>Graduate Degree Wage Premium</td>
+			<td>Median Annual Wage</td>
+			<td>Graduate Degree Attainment</td>
+		</tr>
+		<%
+		while(rs3.next()){
+			out.print("<tr>");
+			out.print("<td>");
+			out.print(rs3.getString("Major_Group"));
+			out.print("</td>");
+			out.print("<td>");
+			out.print(rs3.getString("Major_Subgroup"));
+			out.print("</td>");
+			out.print("<td>");
+			out.print(rs3.getString("Graduate_Degree_Wage_Premium"));
+			out.print("</td>");
+			out.print("<td>");
+			out.print(rs3.getString("Graduate_Degree_Attainment"));
+			out.print("</td>");
+			out.print("<td>");
+			out.print(rs3.getString("Median_Annual_Wages"));
+			out.print("</td>");
+			out.print("</tr>");	
+		}
+		%>
+	</table>
+
+
 <h4>Comparison of Wages for Occupations with Either a Degree in <b><%=major1 %></b> or <b><%=major2 %></b></h4>
 <h6>Note1: (1 Corresponds to Major 1 and 2 Corresponds to Major 2)</h6>
 <h6>Note2: (Columns with a (B) indicates that less than 10,000 people were sampled for that Occupation, so no value is given)</h6>
