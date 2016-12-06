@@ -62,7 +62,7 @@
 				
 				<h1>Compare Majors</h1>
 				<h3>Not All Majors are Created Equal</h3>
-				<form id="submit_button" method="get" action="Compare.jsp" enctype=text/plain>
+				<form id="submit_button1" method="get" action="Compare.jsp" enctype=text/plain>
 				
 				<div class="container-fluid" style="margin:auto">
 					<div class="row">
@@ -84,16 +84,16 @@
 			<div class ="jumbotron">
 				
 				<h1>Compare School</h1>
-				<h3>Not All Majors are Created Equal</h3>
-				<form id="submit_button" method="get" action="Compare.jsp" enctype=text/plain>
+				<h3>My School is Better than Yours</h3>
+				<form id="submit_button2" method="get" action="Compare.jsp" enctype=text/plain>
 				
 				<div class="container-fluid" style="margin:auto">
 					<div class="row">
 						<div class="col-md-6">
-							<h4>Major 1</h4> <jsp:include page="school1dropdown.jsp"/>
+							<h4>School 1</h4> <jsp:include page="school1dropdown.jsp"/>
 						</div>
 						<div class="col-md-6">
-							<h4>Major 2</h4> <jsp:include page="school2dropdown.jsp"/> 
+							<h4>School 2</h4> <jsp:include page="school2dropdown.jsp"/> 
 						</div>
 					</div>
 				</div>
