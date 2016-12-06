@@ -64,6 +64,7 @@ if(College != ""){
 	String q0 = "SELECT STABBR FROM innodb.College where INSTNM = \'"+College+"\'";
 	the_statement = con.prepareStatement(q0);
 	ResultSet rs1 = the_statement.executeQuery();
+	rs1.next();
 	CollegeState = rs1.getString("STABBR");
 	the_statement.clearBatch();
 }
