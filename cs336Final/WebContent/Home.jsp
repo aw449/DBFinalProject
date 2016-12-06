@@ -97,11 +97,7 @@
 						</div>
 					</div>
 					<br>
-					<div class="row">					
-						<div class="col-md-6 col-md-offset-4">
-						<h4>Narrow Down By Major</h4> <jsp:include page="major3dropdown.jsp"/>
-						</div>
-					</div>
+					
 				</div>
 				<br>
 				<input type="submit" value="submit" class="btn btn-default" />
