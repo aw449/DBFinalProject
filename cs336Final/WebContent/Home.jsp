@@ -18,6 +18,13 @@
 	$(document).ready(function(){
 		$('#advanced_options_button').click(function(){
 			$('#advanced_options').toggle();
+			
+			if($('#advanced_options').is(':visible')){
+				$('#submit_button').attr('action','advResults.jsp');
+			}
+			else{
+				$('#submit_button').attr('action','Results.jsp');
+			}
 		});
 	});
 </script>
@@ -27,7 +34,7 @@
 <div class="jumbotron">
 <h1>Masters or Job</h1>
 <h3>Should I get a masters degree or go straight into industry?</h3>
-<form method="get" action="Results.jsp" enctype=text/plain>
+<form id="submit_button" method="get" action="Results.jsp" enctype=text/plain>
 <p>
 I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and went to school in <jsp:include page="statedropdown.jsp"/> 
 <input type="submit" value="submit"/>
