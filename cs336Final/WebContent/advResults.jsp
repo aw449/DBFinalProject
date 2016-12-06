@@ -46,6 +46,7 @@ String Scholarship = request.getParameter("Scholarship");
 String YearEarnings = request.getParameter("YearEarnings");
 String YearsDebt = request.getParameter("YearsDebt");
 String YesOrNo;
+String YesOrNoResult;
 PreparedStatement the_statement;
 
 if(YearsToJob == ""){
@@ -205,9 +206,9 @@ if(MaxTuition != ""){
 }
 //Lifelong here
 if(YesOrNo.equals("Yes"))
-	YesOrNo = "Yes, you should pursue a Graduate degree!";
+	YesOrNoResult = "Yes, you should pursue a Graduate degree!";
 else
-	YesOrNo = "No, you should not pursue a Graduate degree.";
+	YesOrNoResult = "No, you should not pursue a Graduate degree.";
 
 
 %>
@@ -447,9 +448,25 @@ rs11.next();
 <div class="panel panel-default">
 <div class="container-fluid" style="text-align:center; margin:auto">
 	<div class="row">
+		<h1><b>The Verdict:</b> </h1>
+		<h3><font color="
+			<%
+				if(YesOrNo.equals("Yes")){
+					out.print("green");
+				}
+				else{
+					out.print("red");	
+				}
+			%>
+			">
+			<%=YesOrNoResult %>
+			</font>
+			<hr>
+		</h3>
+	</div>
+	<div class="row">
 		<div class="col-md-12">
-		    <h2 style="text-align:center"><%=YesOrNo%></h2>
-			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
+			<h3 style="text-align:center">Facts about my major: <%=major %></h3>
 			<hr>
 		</div>
 	</div>
