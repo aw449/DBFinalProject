@@ -118,14 +118,18 @@ from(
 REDO Above with generic state and major subgroup, in order to create a lookup table
 
 */
+
 CREATE TABLE innodb.OpportunityCosts as(
-SELECT sub3.ST as State, sub4.MAJOR_SUBGROUP as Major, ROUND((sub3.G*4 / sub4.GradWages)*100)/100 as YearsToPayOffDebt, ROUND((sub4.UgradWages*2 + sub3.G*4)*100)/100 as OC,
+SELECT sub3.ST as State, sub4.MAJOR_SUBGROUP as Major, 
+ROUND((sub3.G*4 / sub4.GradWages)*100)/100 as YearsToPayOffDebt, 
+ROUND((sub4.UgradWages*2 + sub3.G*4)*100)/100 as OC,
 ROUND((sub4.UgradWages*2 + sub3.G*4)/sub4.GradWages*100)/100 as YearsToMakeUpOC
 from(
 	(SELECT sub1.ST as ST, (sub1.InStateU + sub2.OutStateU)/2 as U, (sub1.InStateG + sub2.OutStateG)/2 as G
 	from 
 	(
 		(
+        #if(inState){
 		SELECT a.STABBR as ST, avg(a.UgradTutIn) as InStateU, avg(b.GradTutIn) as InStateG
 		from (
 			(SELECT UNITID, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College 
@@ -134,6 +138,7 @@ from(
 			where InStateGradTut <> 0)b
 		)
 		where a.UNITID = b.UNITID and a.STABBR = b.STABBR
+        #and a.UNITID = 'College ID here' //If you want to select a specific college
         group by ST
         )sub1,
 		(
@@ -145,6 +150,7 @@ from(
 			where OutStateGradTut <> 0)d
 		)
 		where c.UNITID = d.UNITID and c.STABBR = d.STABBR
+        #and c.UNITID = 'College ID here' //If you want to select a specific college
 		group by ST
         )sub2
 	)
@@ -153,6 +159,8 @@ from(
 	(
 	SELECT MAJOR_SUBGROUP, MEDIAN_ANNUAL_WAGES as UgradWages, (MEDIAN_ANNUAL_WAGES * (1+(GRADUATE_DEGREE_WAGE_PREMIUM/100))) as GradWages 
 	from innodb.Majors
+    #where MAJOR_SUBGROUP = 'Major Subgroup here' // If you wish to add a major subgroup
+    #and 
 	)sub4
 )
 )
