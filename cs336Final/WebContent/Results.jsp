@@ -32,6 +32,8 @@ Connection con = DriverManager.getConnection(url, "woleng", "analmaDB");
 
 String major = request.getParameter("Majors");
 String state = request.getParameter("States");
+String major_group;
+String fos;
 //Use session to pass parameters between jsp pages
 session.setAttribute("Major", major);
 session.setAttribute("State", state);
@@ -112,6 +114,7 @@ the_statement.clearBatch();
 the_statement = con.prepareStatement(q6);
 ResultSet rs3 = the_statement.executeQuery();
 rs3.next();
+major_group = rs3.getString("Major_Group");
 %>
 
 <%
@@ -138,6 +141,15 @@ the_statement.clearBatch();
 the_statement = con.prepareStatement(q9);
 ResultSet rs6 = the_statement.executeQuery();
 rs6.next();
+%>
+
+<%
+String q10 = "SELECT Field_of_Study FROM Earns WHERE Major_Group = '" + major_group + "'";
+the_statement.clearBatch();
+the_statement = con.prepareStatement(q10);
+ResultSet rs7 = the_statement.executeQuery();
+rs7.next();
+fos = rs7.getString("Field_of_Study");
 %>
 
 <!-- Start text formatting -->

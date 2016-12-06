@@ -4670,9 +4670,15 @@ I Plan on Studying in the state
 	</datalist>
 
 
+<<<<<<< HEAD
 <h4> Job Details </h4>
 My desired Occupation is  
 <input list="Occupations" name="Occupations" value ="" style="width:300px">
+=======
+<h2> Job Details </h2>
+I Plan on Working as a
+<input list="Occupations" name="Occupations" value ="">
+>>>>>>> e52a3ec0fbde770cdd447a6c1dba9d194d0d8bfb
 <datalist id="Occupations">
 <option value="Management Occupations">
 <option value="Chief Executives">
@@ -5447,7 +5453,13 @@ My desired Occupation is
 </datalist>
 
 </br>
+<<<<<<< HEAD
 I Plan on Working in the state 
+=======
+
+
+My Job Will be Located in 
+>>>>>>> e52a3ec0fbde770cdd447a6c1dba9d194d0d8bfb
 <input list="JobStates" name ="JobStates" value = "">
 	<datalist id="JobStates">
 		<option value="AL">
