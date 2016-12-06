@@ -4611,8 +4611,60 @@ I Plan on Attending
 	<option value="Academy of Interactive Entertainment">
 	<option value="Shepherd University">
 	</datalist>
-'s Graduate School
-</br>
+'s Graduate School to get a degree in 
+<input list="GradMajors" name="GradMajors" style="width:240px">
+	<datalist id="GradMajors">
+ 	 	<option value="Agricultural economics">
+		<option value="Animal sciences">
+		<option value="Food science">
+		<option value="Environmental science">
+		<option value="Forestry">
+		<option value="Architecture">
+		<option value="Journalism">
+		<option value="Computer science">
+		<option value="Mathematics teacher education">
+		<option value="Architectural engineering">
+		<option value="Chemical engineering">
+		<option value="Civil engineering">
+		<option value="Computer engineering">
+		<option value="Mechanical engineering">
+		<option value="Metallurgical engineering">
+		<option value="Mining and mineral engineering">
+		<option value="Molecular biology">
+		<option value="Ecology">
+		<option value="Neuroscience">
+		<option value="Mathematics">
+		<option value="Applied mathematics">
+		<option value="Multi/interdisciplinary studies">
+		<option value="Nutrition sciences">
+		<option value="Music">
+		<option value="Philosophy and religious studies">
+		<option value="Theology and religious vocations">
+		<option value="Physical sciences">
+		<option value="Atmospheric sciences and meteorology">
+		<option value="Chemistry">
+		<option value="Physics">
+		<option value="Psychology">
+		<option value="Industrial and organizational psychology">
+		<option value="Social psychology">
+		<option value="Industrial and organizational psychology">
+		<option value="Public administration">
+		<option value="Social work">
+		<option value="Criminology">
+		<option value="Economics">
+		<option value="Geography">
+		<option value="Political science and government">
+		<option value="Sociology">
+		<option value="Visual and performing arts">
+		<option value="Music">
+		<option value="Health and medical administrative services">
+		<option value="Nursing">
+		<option value="Accounting">
+		<option value="International business">
+		<option value="History">
+		</datalist>
+
+<br>
 <h4> OR </h4>
 
 I Plan on Studying in the state
@@ -4669,16 +4721,11 @@ I Plan on Studying in the state
 		<option value="WY">
 	</datalist>
 
+<br>
 
-<<<<<<< HEAD
 <h4> Job Details </h4>
 My desired Occupation is  
 <input list="Occupations" name="Occupations" value ="" style="width:300px">
-=======
-<h2> Job Details </h2>
-I Plan on Working as a
-<input list="Occupations" name="Occupations" value ="">
->>>>>>> e52a3ec0fbde770cdd447a6c1dba9d194d0d8bfb
 <datalist id="Occupations">
 <option value="Management Occupations">
 <option value="Chief Executives">
@@ -5452,14 +5499,8 @@ I Plan on Working as a
 <option value="Material Moving Workers, All Other">
 </datalist>
 
-</br>
-<<<<<<< HEAD
-I Plan on Working in the state 
-=======
 
-
-My Job Will be Located in 
->>>>>>> e52a3ec0fbde770cdd447a6c1dba9d194d0d8bfb
+<br>My Job Will be Located in 
 <input list="JobStates" name ="JobStates" value = "">
 	<datalist id="JobStates">
 		<option value="AL">
