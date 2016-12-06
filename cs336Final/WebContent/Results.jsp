@@ -83,7 +83,7 @@ Map<String, String> dataMap2 = getStateMap(con,q3,"ST","StateWage");
 FusionCharts lineChart2 = new FusionCharts(
         "maps/usa",// chartType
         "ex4",// chartId
-        "600","400",// chartWidth, chartHeight
+        "800","600",// chartWidth, chartHeight
         "chart4",// chartContainer
         "json",// dataFormat
         // dataSource
@@ -188,7 +188,7 @@ rs11.next();
 
 <!-- Section For Major Information -->
 <div class="panel panel-default">
-<div class="container-fluid" style="text-align:center">
+<div class="container-fluid" style="text-align:center; margin:auto">
 	<div class="row">
 		<div class="col-md-12">
 			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
@@ -273,7 +273,7 @@ rs11.next();
 
 <!-- Section For Graduate School Information -->
 <div class="panel panel-default">
-<div class="container-fuild" style="text-align:center">
+<div class="container-fuild" style="text-align:center; margin:auto">
 	<div class="row">
 		<div class="col-md-12">
 			<h2>Facts About Graduate School</h2>
