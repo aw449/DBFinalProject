@@ -43,7 +43,7 @@
 			<div class = "jumbotron">
 				<h1>Masters or Job</h1>
 				<h3>Should I get a masters degree or go straight into industry?</h3>
-				<form id="submit_button1" method="get" action="Results.jsp" enctype=text/plain >
+				<form id="submit_button" method="get" action="Results.jsp" enctype=text/plain >
 				<p>
 				I graduated with a degree in <jsp:include page="majordropdown.jsp"/> and live in <jsp:include page="statedropdown.jsp"/> 
 				<input type="submit" class="btn btn-default" value="submit"/>
@@ -103,7 +103,7 @@
 				
 				<h1>Compare School</h1>
 				<h3>My School is Better than Yours</h3>
-				<form id="submit_button" method="get" action="CompareSchoolsRes.jsp" enctype=text/plain>
+				<form id="submit_button3" method="get" action="CompareSchoolsRes.jsp" enctype=text/plain>
 				
 				<div class="container-fluid" style="margin:auto">
 					<div class="row">
