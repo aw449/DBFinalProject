@@ -116,11 +116,13 @@ rs3.next();
 
 <!-- Start text formatting -->
 
+<!-- Section For Major Information -->
 <div class="panel panel-default">
 <div class="container-fluid" style="text-align:center">
 	<div class="row">
-		<div class="col-mid-12">
+		<div class="col-md-12">
 			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
+			<hr>
 		</div>
 	</div>
 	<div class="row">
@@ -135,16 +137,29 @@ rs3.next();
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<h4>Your Major falls under the Major Group: <%=rs3.getString("Major_Group") %></h4>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<h4>Out of the 14 Major Groups, your Major Group Ranks <b><%=rs2.getString("Rank")%></b> for highest Average Annual Wage </h4>
 		</div>
 	</div>
 </div>
 </div>
-	
+
+<!-- Section For Graduate School Information -->
+<div class="panel panel-default">
+<div class="container-fuild" style="text-align:center">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Facts About Graduate School</h2>
+			<hr>
+		</div>
+	</div>
+</div>
+</div>
+
+
 <!-- Start table formatting -->
 <div class="panel panel-default">
 <div class="container-fluid">
