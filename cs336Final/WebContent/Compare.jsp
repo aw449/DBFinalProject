@@ -39,8 +39,9 @@ String add_limit = "";
 String add_lte = "";
 String fos1 = "";
 String fos2 = "";
-String q1 = "SELECT Earns.Field_of_Study, MajorGroup.Major_Subgroup FROM Earns, (SELECT DISTINCT m1.Major_Group, m1.Major_Subgroup FROM Major m1 WHERE m1.Major_Subgroup = '" + major1 + "' OR m1.Major_Subgroup = '" + major2 + "') as MajorGroup WHERE Earns.Major_Group = MajorGroup.Major_Group"; 
+String q1 = "SELECT Earns.Field_of_Study, MajorGroup.Major_Subgroup FROM Earns, (SELECT m1.Major_Group, m1.Major_Subgroup FROM Major m1 WHERE m1.Major_Subgroup = '" + major1 + "' OR m1.Major_Subgroup = '" + major2 + "') as MajorGroup WHERE Earns.Major_Group = MajorGroup.Major_Group"; 
 String Order = request.getParameter("Order");
+out.print(Order);
 
 String add_Order= " ORDER BY o1.Masters_Earnings1, o2.Masters_Earnings2, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2 " + Order;
 
@@ -61,7 +62,7 @@ else{
 	NumberFormat fmt = NumberFormat.getCurrencyInstance();
 	String Earnings = fmt.format(temp);
 	Earnings = Earnings.substring(0, Earnings.length()-3);
-	Earnings = "'"+Earnings+"'";
+	Earnings = "\'"+Earnings+"\'";
 	add_lte = " and STRCMP(o1.Bachelors_Earnings1, " + Earnings + ") >=0" +
 			" and STRCMP(o2.Bachelors_Earnings2, " + Earnings +  ") >=0" +
 			" and STRCMP(o1.Masters_Earnings1, " + Earnings +  ") >=0" +
@@ -73,9 +74,14 @@ PreparedStatement the_statement = con.prepareStatement(q1);
 ResultSet rs1 = the_statement.executeQuery();
 
 while(rs1.next()){
-	if(rs1.getString("Major_Subgroup").equals(major1)){
+	if (major1.equals(major2)){
+		fos1 = rs1.getString("Field_of_Study");
+		fos2 = rs1.getString("Field_of_Study");
+	}
+	else if(rs1.getString("Major_Subgroup").equals(major1)){
 		fos1 = rs1.getString("Field_of_Study");
 	}
+	
 	else{
 		fos2 = rs1.getString("Field_of_Study");
 	}
@@ -83,7 +89,7 @@ while(rs1.next()){
 
 rs1.close();
 
-String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation " + add_lte + Order + Limit +";";
+String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation " + add_lte +  add_Order + Limit +";";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q2);
 ResultSet rs2 = the_statement.executeQuery();
