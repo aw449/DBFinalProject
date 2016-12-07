@@ -46,7 +46,6 @@ String Scholarship = request.getParameter("Scholarship");
 String YearEarnings = request.getParameter("YearEarnings");
 String YearsDebt = request.getParameter("YearsDebt");
 String YesOrNo;
-String YesOrNoResult;
 PreparedStatement the_statement;
 
 if(YearsToJob == ""){
@@ -97,7 +96,7 @@ session.setAttribute("State", state);
 //Add the very large query, with customizable options depending on what the user does or does not select.
 
 StringBuilder LargeQuery = new StringBuilder();
-LargeQuery.append("SELECT sub3.G as tuition, (ROUND(((sub3.G-"+Scholarship+"*2*"+YearsToGrad+ ") / sub4.GradWages)*100)/100) + "+YearsToJob+" as YearsToPayOffDebt, ");
+LargeQuery.append("SELECT sub3.G as tuition, (ROUND(((sub3.G-"+Scholarship+"* 2 *"+YearsToGrad+ ") / sub4.GradWages)*100)/100) + "+YearsToJob+" as YearsToPayOffDebt, ");
 LargeQuery.append("ROUND(sub4.UgradWages*"+YearsToGrad+ " + (sub3.G-"+Scholarship+")*400)/100 as OC, ");
 LargeQuery.append("ROUND((sub4.UgradWages*"+YearsToGrad+ " + (sub3.G-"+Scholarship+")*4)/(sub4.GradWages - sub4.UgradWages)*100)/100 + "+YearsToJob+" as YearsToMakeUpOC ");
 LargeQuery.append("from(( ");
@@ -124,32 +123,31 @@ else if(CollegeState != ""){//We don't have the college field, but we have the c
 		LargeQuery.append("SELECT avg(InStateUgradTut) as U, avg(InStateGradTut) as G ");
 		LargeQuery.append("from ( ");
 		LargeQuery.append("(SELECT UNITID, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College  ");
-		LargeQuery.append("where InStateUgradTut <> 0 and STABBR = \'" +state + "\')a, " );
+		LargeQuery.append("where InStateUgradTut <> 0 and STABBR = \'" +CollegeState + "\')a, " );
 		LargeQuery.append("(SELECT UNITID, STABBR, InStateGradTut as GradTutIn FROM innodb.College  ");
-		LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +state + "\'b ");
-		LargeQuery.append(") ");
+		LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +CollegeState + "\')b ");
+		LargeQuery.append(")) sub3, ");
 	}
 	else{
 		LargeQuery.append("SELECT avg(OutStateUgradTut) as U, avg(OutStateGradTut) as G ");
 		LargeQuery.append("from ( ");
 		LargeQuery.append("(SELECT UNITID, STABBR, OutStateUgradTut FROM innodb.College  ");
-		LargeQuery.append("where OutStateUgradTut <> 0 and STABBR = \'" +state + "\')a, " );
+		LargeQuery.append("where OutStateUgradTut <> 0 and STABBR = \'" +CollegeState + "\')a, " );
 		LargeQuery.append("(SELECT UNITID, STABBR, OutStateGradTut FROM innodb.College  ");
-		LargeQuery.append("where OutStateGradTut <> 0 and STABBR = \'" +state + "\'b ");
-		LargeQuery.append(") ");
+		LargeQuery.append("where OutStateGradTut <> 0 and STABBR = \'" +CollegeState + "\')b ");
+		LargeQuery.append(")) sub3, ");
 	}
-	LargeQuery.append("where STABBR = \'" + CollegeState + "\')sub3, ");
 }
 else{ // We know nothing, Jon Snow. Except where you live.
 	LargeQuery.append("SELECT sub1.ST as ST, (sub1.InStateU + sub2.OutStateU)/2 as U, (sub1.InStateG + sub2.OutStateG)/2 as G ");
 	LargeQuery.append("from( ");
 	LargeQuery.append("( ");
 	LargeQuery.append("SELECT a.STABBR as ST, avg(a.UgradTutIn) as InStateU, avg(b.GradTutIn) as InStateG ");
-	LargeQuery.append("from ( ");
+	LargeQuery.append("from ");
 	LargeQuery.append("(SELECT UNITID, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College  ");
 	LargeQuery.append("where InStateUgradTut <> 0 and STABBR = \'" +state + "\')a, " );
 	LargeQuery.append("(SELECT UNITID, STABBR, InStateGradTut as GradTutIn FROM innodb.College  ");
-	LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +state + "\'b ");
+	LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +state + "\')b ");
 	LargeQuery.append(") ");
 	LargeQuery.append("where a.UNITID = b.UNITID and a.STABBR = b.STABBR ");
 	LargeQuery.append("group by ST ");
@@ -185,6 +183,7 @@ LargeQuery.append("); ");
 //
 //	I would like to pay less than the maximum tuition I set.
 	the_statement = con.prepareStatement(LargeQuery.toString());
+	System.out.println(LargeQuery.toString());
 	ResultSet rsLarge = the_statement.executeQuery();
 	rsLarge.next();
 	String OC = rsLarge.getString("OC");
@@ -206,9 +205,9 @@ if(MaxTuition != ""){
 }
 //Lifelong here
 if(YesOrNo.equals("Yes"))
-	YesOrNoResult = "Yes, you should pursue a Graduate degree!";
+	YesOrNo = "Yes, you should pursue a Graduate degree!";
 else
-	YesOrNoResult = "No, you should not pursue a Graduate degree.";
+	YesOrNo = "No, you should not pursue a Graduate degree.";
 
 
 %>
@@ -355,13 +354,12 @@ else if(CollegeState != ""){//We don't have the college field, but we have the c
 	LargeQuery.append("(SELECT UNITID, STABBR, InStateUgradTut as UgradTutIn FROM innodb.College  ");
 	LargeQuery.append("where InStateUgradTut <> 0 and STABBR = \'" +state + "\')a, " );
 	LargeQuery.append("(SELECT UNITID, STABBR, InStateGradTut as GradTutIn FROM innodb.College  ");
-	LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +state + "\'b ");
+	LargeQuery.append("where InStateGradTut <> 0 and STABBR = \'" +state + "\')b, ");
 	LargeQuery.append("(SELECT UNITID, STABBR, OutStateUgradTut FROM innodb.College  ");
 	LargeQuery.append("where OutStateUgradTut <> 0 and STABBR = \'" +state + "\')c, " );
 	LargeQuery.append("(SELECT UNITID, STABBR, OutStateGradTut FROM innodb.College  ");
-	LargeQuery.append("where OutStateGradTut <> 0 and STABBR = \'" +state + "\'d ");
+	LargeQuery.append("where OutStateGradTut <> 0 and STABBR = \'" +state + "\')d ");
 	LargeQuery.append(") ");
-	LargeQuery.append("where STABBR = \'" + CollegeState + "\'");
 	q9 = LargeQuery.toString();
 }
 else{ // We know nothing, Jon Snow. Except where you live.
@@ -372,6 +370,7 @@ else{ // We know nothing, Jon Snow. Except where you live.
 			"FROM innodb.College where STABBR <> '" + state +  "')b;";
 	}
 the_statement.clearBatch();
+System.out.println(q9);
 the_statement = con.prepareStatement(q9);
 ResultSet rs6 = the_statement.executeQuery();
 rs6.next();
@@ -448,25 +447,9 @@ rs11.next();
 <div class="panel panel-default">
 <div class="container-fluid" style="text-align:center; margin:auto">
 	<div class="row">
-		<h1><b>The Verdict:</b> </h1>
-		<h3><font color="
-			<%
-				if(YesOrNo.equals("Yes")){
-					out.print("green");
-				}
-				else{
-					out.print("red");	
-				}
-			%>
-			">
-			<%=YesOrNoResult %>
-			</font>
-			<hr>
-		</h3>
-	</div>
-	<div class="row">
 		<div class="col-md-12">
-			<h3 style="text-align:center">Facts about my major: <%=major %></h3>
+		    <h2 style="text-align:center"><%=YesOrNo%></h2>
+			<h2 style="text-align:center">Facts about my major: <%=major %></h2>
 			<hr>
 		</div>
 	</div>
