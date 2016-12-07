@@ -132,7 +132,7 @@ ResultSet rs3 = the_statement.executeQuery();
 
 
 <h4>Comparison of Wages for Occupations with Either a Degree in <b><%=major1 %></b> or <b><%=major2 %></b></h4>
-<h6>Note1: (1 Corresponds to Major 1 and 2 Corresponds to Major 2)</h6>
+<h6>Note1: (1 Corresponds to <i>Major 1: <%=major1 %></i> and 2 Corresponds to <i>Major 2: <%=major2 %>)</i></h6>
 <h6>Note2: (Columns with a (B) indicates that less than 10,000 people were sampled for that Occupation, so no value is given)</h6>
 <table class="table table-striped table-responsive">
 	<tr>
