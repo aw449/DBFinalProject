@@ -87,7 +87,7 @@ while(rs1.next()){
 
 rs1.close();
 
-String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation " + add_lte +  add_Order + Limit +";";
+String q2 = "SELECT o1.Occupation, o1.Bachelors_Earnings1, o2.Bachelors_Earnings2, o1.Masters_Earnings1, o2.Masters_Earnings2 FROM (SELECT Occupation, B_SWE AS Bachelors_Earnings1, M_SWE AS Masters_Earnings1 FROM "+ fos1 + ") AS o1, (SELECT Occupation, B_SWE AS Bachelors_Earnings2, M_SWE AS Masters_Earnings2 FROM " + fos2 + ") AS o2 WHERE o1.Occupation = o2.Occupation " + add_lte +  add_Order + add_limit +";";
 the_statement.clearBatch();
 the_statement = con.prepareStatement(q2);
 ResultSet rs2 = the_statement.executeQuery();
